@@ -1,19 +1,6 @@
-Get you some data:
+## Generate a reference dataset
 
-```
-$ cd content_dictionary
-$ bundle install
-$ bundle exec ruby -r './content_dictionary' -e 'ContentDictionary.new.compile'
-```
-
-This may take a while as it scrapes the hell out of the content store.
-
-The outcome is a 26MB json file containing everything we need to get started.
-`./content_dictionary/data/education_content_dictionary.json`
-
-Out of politeness, I've added the `content_dictionary/data/pages/` folder to .gitignore
-
-Next, we want to generate our reference dataset. This will be a random sampling of the content dictionary to give us an idea of baseline performance.
+This will be a random sampling of the content dictionary to give us an idea of baseline performance.
 
 Run the script
 ```

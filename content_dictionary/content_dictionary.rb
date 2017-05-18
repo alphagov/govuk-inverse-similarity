@@ -1,6 +1,6 @@
 # USAGE
 # From the command line:
-# $ ruby -r './content_dictionary' -e 'ContentDictionary.new.compile'
+# $ ruby -r './content_dictionary' -e 'ContentDictionary.new.to_json'
 
 require_relative 'page'
 require_relative 'education_theme'
@@ -8,6 +8,13 @@ require 'http'
 
 class ContentDictionary
   FILENAME = "education_content_dictionary.json".freeze
+
+  def to_json
+    compile unless File.exists?(filename)
+    puts File.read(filename)
+  end
+
+private
 
   def compile
     @doc = theme.map do |r|
