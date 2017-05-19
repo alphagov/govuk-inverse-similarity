@@ -28,16 +28,8 @@ def number_of_pages_reviewed_before_term_limit_reached(results, term_limit):
   return page_count
 
 
-def print_80_90_95th_percentiles(results):
-  num_rounds = len(results.columns)
-
-  print
-  print 'Analysis of Education themed content.'
-  print 'Baseline for optimal content-ordering experiment.'
-  print 'For ', num_rounds, 'rounds of randomly ordered pages:'
-  print
-
-  for percentage_of_terms in [0.5, 0.8, 0.9, 0.95]:
+def print_percentiles(results, percentiles):
+  for percentage_of_terms in percentiles:
     max_concepts = cd.total_number_of_concepts()
     term_limit = max_concepts * percentage_of_terms
 
