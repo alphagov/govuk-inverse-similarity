@@ -26,3 +26,7 @@ For average of 10000 rounds of randomly ordered pages:
 
 95% of terms were found by reviewing an average of 2116 pages. 29.0% of corpus, σ 382, range 962 - 2924
 ```
+
+Plot of term discovery by number of pages reviewed.
+
+![Plot of term discovery](https://cloud.githubusercontent.com/assets/608867/26249453/95d9c62e-3c9e-11e7-824f-02a5679d6471.png)
