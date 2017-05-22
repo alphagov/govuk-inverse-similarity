@@ -49,7 +49,7 @@ class Page
 
   def filename
     filename = basepath.gsub(/^\//, '').gsub('/', '_').gsub('-', '_')
-    File.join(__dir__, 'data', 'pages', "#{filename}.json")
+    File.join(__dir__, '..', 'data', 'pages', "#{filename}.json")
   end
 
   def body_content

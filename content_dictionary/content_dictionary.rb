@@ -35,7 +35,7 @@ private
   end
 
   def filename
-    File.join(__dir__, 'data', FILENAME)
+    File.join(__dir__, '..', 'data', FILENAME)
   end
 
   def save_as_json
