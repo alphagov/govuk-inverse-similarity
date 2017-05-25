@@ -29,7 +29,7 @@ def calc_cumulative_concepts(df):
 
   return pd.Series(cumulative)
 
-def load_random_results():
+def random_results():
   filename = 'random_sampling.pickle'
   if data.isfile(filename):
     print "Loading Randomly sampled dataset"
@@ -56,8 +56,8 @@ def percentage_as_string(nom, denom, dps):
     string = str(round(p, dps)) + '%'
   return string
 
-def threshold_analysis(results_with_cumulative_column, percentage_of_terms):
-  pages = results_with_cumulative_column.apply(number_of_pages_reviewed_before_term_limit_reached, args=[percentage_of_terms])
+def threshold_analysis(cumulative_series, percentage_of_terms):
+  pages = cumulative_series.apply(number_of_pages_reviewed_before_term_limit_reached, args=[percentage_of_terms])
   return pd.Series(pages)
 
 # expects results to be a pandas Series, and term_limit to be float as percentage eg 0.2
