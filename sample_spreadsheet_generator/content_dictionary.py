@@ -1,16 +1,17 @@
 import urllib, json, time
+import pandas as pd
 
 class ContentDictionary():
   def load(self, filename):
     with open(filename, 'rb') as infile:
-      return json.loads( infile.read() )
+      return pd.DataFrame( json.loads( infile.read() ) )
 
   def build(self, basepaths_filename, dictionary_filename, url, niceness):
     self.basepaths_filename = basepaths_filename
 
     pages = []
     for path in self.basepaths():
-      page_data = Page(url, path).to_dict()
+      page_data = Page(url + path).to_dict()
       if bool(page_data):
         print path
         pages.append(page_data)
@@ -19,7 +20,7 @@ class ContentDictionary():
     with open(dictionary_filename, 'w') as outfile:
       json.dump(pages, outfile)
 
-    return pages
+    return pd.DataFrame(pages)
 
   def basepaths(self):
     file = open(self.basepaths_filename, 'r')
@@ -28,8 +29,8 @@ class ContentDictionary():
     return data
 
 class Page():
-  def __init__(self, url, basepath):
-    self.data = self.fetch_data(url + basepath)
+  def __init__(self, url):
+    self.data = self.fetch_data(url)
     self.unprocessable_types = [
       'smart_answer',
       'organisation',

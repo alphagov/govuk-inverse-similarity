@@ -1,2 +1,4 @@
 data/*.pickle
 data/pages/*.json
+data/
+*/*.pyc

@@ -8,7 +8,9 @@ import argparse
 import os
 import sys
 
-import content_dictionary as content
+from content_dictionary import ContentDictionary
+from lda_model import LdaModel
+from difference_sampler import DifferenceSampler
 
 parser = argparse.ArgumentParser(description=__doc__)
 content_source_parser = parser.add_mutually_exclusive_group(required=True)
@@ -87,36 +89,36 @@ if __name__ == '__main__':
     return os.path.isfile( absolute_path(filename) )
 
   if file_exists(args.basepaths_filename):
-    content_dictionary = content.build_content_dictionary(
+    print 'Building content dictionary...'
+    content_dictionary = ContentDictionary().build(
       basepaths_filename=absolute_path(args.basepaths_filename),
       dictionary_filename=absolute_path(args.content_dictionary_filename),
       url=args.remote_url,
       niceness=args.niceness
     )
   elif file_exists(args.content_dictionary_filename):
-    content_dictionary = content.load_content_dictionary(
+    print 'Loading content dictionary'
+    content_dictionary = ContentDictionary().load(
       filename=absolute_path(args.content_dictionary_filename)
     )
   else:
     print "Error, file not found."
     sys.exit(1)
 
-  if file_exists(args.model_filename):
-    lda_model = lda_model.load_model(
-      filename=absolute_path(args.model_filename)
-    )
-  else:
-    lda_model = lda_model.train_model(
-      filename=absolute_path(args.model_filename),
+  model_class = LdaModel( absolute_path(args.model_filename) )
+
+  if model_class.no_pretrained_model_exists():
+    print 'Training model'
+    model_class.train_model(
       content_dictionary=content_dictionary,
       num_topics=args.num_topics
     )
 
-  sampled_pages = difference_sampler.sample_pages(
-    lda_model=lda_model,
+  sampled_pages = DifferenceSampler(model_class).sample_pages(
     content_dictionary=content_dictionary,
     affinity_threshold=args.affinity_threshold,
   )
 
   # do something with the sampled pages. Dunno, save them maybe?
-
+  print len(content_dictionary)
+  print len(sampled_pages)
