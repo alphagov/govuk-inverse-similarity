@@ -47,7 +47,8 @@ class Page():
         'content_id': self.data['content_id'],
         'basepath': self.data['base_path'],
         'title': self.data['title'],
-        'body': self.body_content()
+        'body': self.body_content(),
+        'description': self.data.get('description')
       }
     else:
       return {}

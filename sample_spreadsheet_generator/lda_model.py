@@ -10,31 +10,31 @@ import os
 import pickle
 
 class LdaModel():
-  def __init__(self, filename):
-    self.filename = filename
-    self.model_filename = filename + '_model'
-    self.corpus_filename = filename + '_corpus'
+  def __init__(self, filename, num_topics):
+    self.filename = filename + '_' + str(num_topics)
+    self.corpus_filename = self.filename + '_corpus'
     self.stopwords = self.stopwords()
+    self.num_topics = num_topics
 
   # expects a pandas dataframe, integer
-  def train_model(self, content_dictionary, num_topics):
+  def train_model(self, content_dictionary):
     phrases = self.phrases_from_content(content_dictionary)
     dictionary = self.build_dictionary(phrases)
     corpus = [dictionary.doc2bow(text) for text in phrases]
-    model = gensim.models.ldamodel.LdaModel(corpus, num_topics=num_topics, id2word=dictionary, passes=50)
+    model = gensim.models.ldamodel.LdaModel(corpus, num_topics=self.num_topics, id2word=dictionary, passes=50)
     self.save_model(model)
     self.save_corpus(corpus)
     return model
 
   def no_pretrained_model_exists(self):
-    return not ( os.path.isfile(self.model_filename) and
+    return not ( os.path.isfile(self.filename) and
       os.path.isfile(self.corpus_filename) )
 
   def save_model(self, model):
-    model.save(self.model_filename)
+    model.save(self.filename)
 
   def load_model(self):
-    return gensim.models.LdaModel.load(self.model_filename)
+    return gensim.models.LdaModel.load(self.filename)
 
   def save_corpus(self, corpus):
     pickle.dump( corpus, open(self.corpus_filename, 'wb') )
@@ -51,7 +51,7 @@ class LdaModel():
   def phrases_from_content(self, content_dictionary):
     phrases = []
     for index, row in content_dictionary.iterrows():
-      raw_text = ' '.join([row['body'], row['title'], row['basepath']])
+      raw_text = ' '.join([row['body'], row['title'], row['basepath'], row.get('description', '')])
       clean_text = self.clean_text(raw_text)
       phrases.append( self.phrases(clean_text) )
     return phrases

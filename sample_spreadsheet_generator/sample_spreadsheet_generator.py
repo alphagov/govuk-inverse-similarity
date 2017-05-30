@@ -1,4 +1,4 @@
-#! ../baseline_performance/.venv/bin/python
+#! ../.venv/bin/python
 
 """
 Generate a spreadsheet of inversely-similar content for the purposes of
@@ -11,31 +11,16 @@ import sys
 from content_dictionary import ContentDictionary
 from lda_model import LdaModel
 from difference_sampler import DifferenceSampler
+from output_builder import OutputBuilder
 
 parser = argparse.ArgumentParser(description=__doc__)
-content_source_parser = parser.add_mutually_exclusive_group(required=True)
-
-content_source_parser.add_argument(
-  '--basepaths',
-  metavar='filename',
-  dest='basepaths_filename',
-  help='file should contain GOV.UK basepaths on seperate lines',
-)
-
-content_source_parser.add_argument(
-  '--content-dictionary',
-  metavar='filename',
-  dest='content_dictionary_filename',
-  help='filename of a previously generated content-dictionary',
-  default='content_dictionary.json'
-)
 
 parser.add_argument(
-  '--model',
-  metavar='filename',
-  dest='model_filename',
-  help='filename of a trained LDA model, or filename for the newly trained model',
-  default='trained_lda_model'
+  '--theme-name',
+  metavar='THEME',
+  dest='theme_name',
+  help='name of the theme, which will be used to magic up filenames etc',
+  required=True
 )
 
 parser.add_argument(
@@ -43,15 +28,15 @@ parser.add_argument(
   type=int,
   dest='num_topics',
   help='the number of topics with which to train the LDA model',
-  default=100
+  default=50
 )
 
 parser.add_argument(
-  '--affinity-theshold',
+  '--affinity-threshold',
   type=float,
   dest='affinity_threshold',
   help='threshold affinity value for the topic clustering algorithm',
-  default=0.3
+  default=0.1
 )
 
 parser.add_argument(
@@ -79,6 +64,11 @@ parser.add_argument(
 if __name__ == '__main__':
   args = parser.parse_args()
 
+  basepaths_filename = args.theme_name + '_basepaths.csv'
+  content_dictionary_filename = args.theme_name + '_content_dictionary.json'
+  model_filename = args.theme_name + '_model'
+  output_filename = args.theme_name + '_sample_spreadsheet.csv'
+
   def absolute_path(filename):
     path = os.path.dirname(os.path.realpath(__file__))
     return os.path.join(path, args.data_dir, filename)
@@ -88,37 +78,45 @@ if __name__ == '__main__':
       return False
     return os.path.isfile( absolute_path(filename) )
 
-  if file_exists(args.basepaths_filename):
-    print 'Building content dictionary...'
-    content_dictionary = ContentDictionary().build(
-      basepaths_filename=absolute_path(args.basepaths_filename),
-      dictionary_filename=absolute_path(args.content_dictionary_filename),
-      url=args.remote_url,
-      niceness=args.niceness
-    )
-  elif file_exists(args.content_dictionary_filename):
+  if file_exists(content_dictionary_filename):
     print 'Loading content dictionary'
     content_dictionary = ContentDictionary().load(
-      filename=absolute_path(args.content_dictionary_filename)
+      filename=absolute_path(content_dictionary_filename)
+    )
+  elif file_exists(basepaths_filename):
+    print 'Building content dictionary...'
+    content_dictionary = ContentDictionary().build(
+      basepaths_filename=absolute_path(basepaths_filename),
+      dictionary_filename=absolute_path(content_dictionary_filename),
+      url=args.remote_url,
+      niceness=args.niceness
     )
   else:
     print "Error, file not found."
     sys.exit(1)
 
-  model_class = LdaModel( absolute_path(args.model_filename) )
+  model_class = LdaModel( absolute_path(model_filename), num_topics=args.num_topics )
 
   if model_class.no_pretrained_model_exists():
     print 'Training model'
     model_class.train_model(
-      content_dictionary=content_dictionary,
-      num_topics=args.num_topics
+      content_dictionary=content_dictionary
     )
+  else:
+    print 'Loading model'
 
+  print 'Clustering and sampling'
   sampled_pages = DifferenceSampler(model_class).sample_pages(
     content_dictionary=content_dictionary,
     affinity_threshold=args.affinity_threshold,
   )
 
-  # do something with the sampled pages. Dunno, save them maybe?
-  print len(content_dictionary)
-  print len(sampled_pages)
+  print str( len(sampled_pages) ) + ' sampled / ' + str( len(content_dictionary) ) + ' total'
+
+  print 'Writing output spreadsheet'
+  OutputBuilder(sampled_pages).write_to_file(
+    absolute_path(output_filename)
+  )
+
+  print '✅ Done'
+
