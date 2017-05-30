@@ -1,30 +1,66 @@
-## Generate a reference dataset
+# Tool to create sample spreadsheet for thematic analysis
 
-This will be a random sampling of the content dictionary to give us an idea of baseline performance.
+In order to maximise the time-effectiveness of early-stage taxonomy generation,
+this tool will create a list of conceptually-dense pages for expert review.
 
-Run the script
+## Getting set up to use the tool
+
+First, you'll need to install some dependencies. It's a python thing, so:
+
 ```
-$ cd baseline_performance
+$ git clone git@github.com:alphagov/ordering-documents-by-inverse-similarity.git
+$ cd ordering-documents-by-inverse-similarity
 $ virtualenv .venv
 $ source .venv/bin/activate
 $ pip install -r requirements.txt
-$ python print_baseline.py
 ```
 
-This will run the random sampler 1000 times and print the 80th, 90th and 95th percentile results to the console.
+We use a python library called `nltk` for natural language processing. We need a
+module from `nltk` that doesn't come bundled with the library. In order to
+install that module do the following:
 
-Run `ipython --pylab -i plot_random.py` to see the results charted.
+1) Open a python console
 
 ```
-Analysis of Education themed content.
-Baseline for optimal content-ordering experiment.
-For average of 10000 rounds of randomly ordered pages:
+$ python
+Python 2.7.12 (default, Jun 29 2016, 14:05:02)
+[GCC 4.2.1 Compatible Apple LLVM 7.3.0 (clang-703.0.31)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+```
 
-80% of terms were found by reviewing an average of 613 pages. 8.4% of corpus, σ 90, range 299 - 1042
+2) Import `nltk` and open its package application:
 
-90% of terms were found by reviewing an average of 1229 pages. 16.8% of corpus, σ 203, range 642 - 2236
+```
+>>> import nltk
+>>> nltk.download()
+showing info https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/index.xml
+```
 
-95% of terms were found by reviewing an average of 2116 pages. 29.0% of corpus, σ 382, range 962 - 2924
+3) On the GUI it opened, click on `corpora` and scroll down until you find a
+package named `stopwords`. Download that package and exit the app.
+
+
+## Create a sample spreadsheet for a new theme
+
+The process begins with consuming a list of content base paths. You'll need to create one of these. It should be a file containing a single base path per line, and the tool expects that the referenced content will be of a single theme.
+
+For example:
+```
+/guidance/brucellosis
+/horse-passport
+/report-dead-animal
+```
+
+This file should be named `{THEME_NAME}_basepaths.csv` and saved in the `data` directory.
+
+The first time you run the script with a new theme it will download the information it needs from the content-store. You can set the url of the content-store to use with the `--remote` CLI switch, which defaults to the live app at `https://www.gov.uk/api/content`. You can also set the `niceness` which is the time in milliseconds between API reequests. It defaults to 10.
+
+All the CLI options are shown by running the `sample_spreadsheet_generator.py` script with `-h`
+
+Because every step of the process is extremely time-consuming, the script will save it's intermediate workings in the data directory. Next time you run the script, it will resume where it left off.
+
+```
+./sample_spreadsheet_generator.py --theme-name environment_theme
 ```
 
 Plot of term discovery by number of pages reviewed.
