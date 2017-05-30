@@ -3,6 +3,10 @@
 In order to maximise the time-effectiveness of early-stage taxonomy generation,
 this tool will create a list of conceptually-dense pages for expert review.
 
+## Why use this tool?
+
+Based on a review of the Education themed content, this algorithm performed significantly better than other sampling approaches when selecting for conceptual density.
+
 ## Getting set up to use the tool
 
 First, you'll need to install some dependencies. It's a python thing, so:
@@ -62,7 +66,3 @@ Because every step of the process is extremely time-consuming, the script will s
 ```
 ./sample_spreadsheet_generator.py --theme-name environment_theme
 ```
-
-Plot of term discovery by number of pages reviewed.
-
-![Plot of term discovery](https://cloud.githubusercontent.com/assets/608867/26249453/95d9c62e-3c9e-11e7-824f-02a5679d6471.png)
