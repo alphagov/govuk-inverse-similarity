@@ -1,25 +1,27 @@
-import urllib, json, time
+# -*- coding: utf-8 -*-
+import urllib, json, time, sys
 import pandas as pd
+from tqdm import tqdm
 
 class ContentDictionary():
   def load(self, filename):
     with open(filename, 'rb') as infile:
       return pd.DataFrame( json.loads( infile.read() ) )
 
-  def build(self, basepaths_filename, dictionary_filename, url, niceness):
+  def build(self, basepaths_filename, dictionary_filename, url, niceness=10):
     self.basepaths_filename = basepaths_filename
 
     pages = []
-    for path in self.basepaths():
+    for path in tqdm( self.basepaths() ):
       page_data = Page(url + path).to_dict()
       if bool(page_data):
-        print path
         pages.append(page_data)
-      time.sleep(niceness)
+      time.sleep(niceness / 1000.0)
 
     with open(dictionary_filename, 'w') as outfile:
-      json.dump(pages, outfile)
+      json.dump(pages, outfile, indent=2)
 
+    print "{0} items skipped".format( len(self.basepaths()) - len(pages) )
     return pd.DataFrame(pages)
 
   def basepaths(self):
@@ -51,10 +53,13 @@ class Page():
       return {}
 
   def processable(self):
-    return self.data is not None and self.processable_content_type() and self.body_content()
+    return self.data is not None and self.processable_content_type() and self.body_content() and self.en_lang()
 
   def processable_content_type(self):
     return self.data['document_type'] not in self.unprocessable_types
+
+  def en_lang(self):
+    return self.data['locale'] == 'en'
 
   def body_content(self):
     if ( self.data['schema_name'] in ['transaction','local_transaction'] ):
@@ -73,7 +78,7 @@ class Page():
 
     elif ( self.data['document_type'] == 'licence' ):
       return self.data['details']['licence_short_description'] + self.data['details']['licence_overview']
-    elif 'body' in self.data.keys():
+    elif 'body' in self.data['details'].keys():
       return self.data['details']['body']
     else:
       return None

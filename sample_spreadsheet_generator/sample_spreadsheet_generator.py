@@ -27,7 +27,7 @@ content_source_parser.add_argument(
   metavar='filename',
   dest='content_dictionary_filename',
   help='filename of a previously generated content-dictionary',
-  default='content_dictionary.csv'
+  default='content_dictionary.json'
 )
 
 parser.add_argument(
