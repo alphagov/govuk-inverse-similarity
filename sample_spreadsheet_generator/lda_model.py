@@ -45,7 +45,10 @@ class LdaModel():
   def build_dictionary(self, phrases):
     dictionary = corpora.Dictionary(phrases)
     # these parameters need tuning to the volume of content
-    # dictionary.filter_extremes(no_below=20, no_above=0.15, keep_n=None)
+    # the no_below parameter takes an absolute number of documents
+    # no_above is a percentage of the corpus
+    # see https://radimrehurek.com/gensim/corpora/dictionary.html
+    dictionary.filter_extremes(no_below=20, no_above=0.15, keep_n=None)
     return dictionary
 
   def phrases_from_content(self, content_dictionary):
