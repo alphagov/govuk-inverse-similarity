@@ -66,3 +66,17 @@ Because every step of the process is extremely time-consuming, the script will s
 ```
 ./sample_spreadsheet_generator.py --theme-name environment_theme
 ```
+
+## Advanced configuration
+
+There are two variables that the least similar selection (LSS) algorithm uses, that have been exposed to the user.
+
+The algorithm was run in test mode against the Education theme content with many different settings, and the results for comparison are in [this google doc](https://docs.google.com/a/digital.cabinet-office.gov.uk/spreadsheets/d/1ERR5GonY98l9prmPYFR5RuxC7gQShtT_aj15MPAyUzo/edit?usp=sharing)
+
+### Number of Topics
+
+This is passed to the [LDA](https://en.wikipedia.org/wiki/Latent_Dirichlet_allocation) topic modeller. It can help to think of a Topic as a machine generated Concept or Term, however the actual output is unlikely to be particularly legible to the human mind.  In the LSS algorithm, a trained LDA model is used to assign topic-groups to thematic content. The Number of Topics parameter alters the output dramatically.
+
+### Affinity Threshold
+
+This is used by the topic-group sampler algorithm, after the content has been topic-modelled. It describes the minimum probability that an LDA model assigned topic can have. Lower values will produce a higher volume of sampled documents, but they may be of lower quality.
