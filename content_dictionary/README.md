@@ -1,3 +1,7 @@
+# Education theme content dictionary
+
+This has been superceeded by the `content_dictionary.py` tool in the `../sample_spreadsheet_generator/` folder.
+
 ## Get you some data:
 
 ```

@@ -1,4 +1,3 @@
-import content_dictionary as cd
 from textacy import preprocess
 from HTMLParser import HTMLParser
 from gensim.utils import lemmatize
@@ -31,6 +30,8 @@ def strip_tags(html):
 PUNCTUATION_REGEX = re.compile(r'\W|[_0-9]', flags=re.UNICODE)
 
 def preprocess_unicode(raw_text):
+  raw_text = strip_tags(raw_text)
+  raw_text = re.sub(PUNCTUATION_REGEX, ' ', raw_text)
   raw_text = preprocess.transliterate_unicode(raw_text.lower())
   raw_text = preprocess.replace_urls(raw_text, replace_with=u'')
   raw_text = preprocess.replace_emails(raw_text, replace_with=u'')
@@ -59,11 +60,6 @@ def phrases_in_raw_text_via_textacy(raw_text):
 
   return phrases
 
-def clean_text(htmlsoup):
-  wordsalad = strip_tags(htmlsoup)
-  alphabet_spaghetti = re.sub(PUNCTUATION_REGEX, ' ', wordsalad)
-  return preprocess_unicode(alphabet_spaghetti)
-
 
 def load_stopwords():
   stopwords = []
@@ -76,7 +72,6 @@ def load_stopwords():
           stopwords.append(line)
 
   return stopwords + [word.decode('utf8') for word in STOPWORDS]
-
 
 STOPWORDS_UNICODE = load_stopwords()
 STOPWORDS_BYTES = [word.encode('utf8') for word in STOPWORDS_UNICODE]
