@@ -1,5 +1,5 @@
 #! ../.venv/bin/python
-
+# -*- coding: utf-8 -*-
 """
 Generate a spreadsheet of inversely-similar content for the purposes of
 building the beginnings of a taxonomy.
@@ -98,7 +98,7 @@ if __name__ == '__main__':
   model_class = LdaModel( absolute_path(model_filename), num_topics=args.num_topics )
 
   if model_class.no_pretrained_model_exists():
-    print 'Training model'
+    print 'Training model with', args.num_topics, 'topics'
     model_class.train_model(
       content_dictionary=content_dictionary
     )

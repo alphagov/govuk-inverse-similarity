@@ -67,6 +67,8 @@ Because every step of the process is extremely time-consuming, the script will s
 ./sample_spreadsheet_generator.py --theme-name environment_theme
 ```
 
+To reiterate this point: it's really not unexpected for the entire process to take over 5 hours to complete. Neither the process of building a content dictionary, nor training the model are parallelised so it will peg a single CPU core to 100% but you'll still be able to use your computer. It will cane your battery though :)
+
 ## Advanced configuration
 
 There are two variables that the least similar selection (LSS) algorithm uses, that have been exposed to the user.
