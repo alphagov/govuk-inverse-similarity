@@ -28,7 +28,7 @@ parser.add_argument(
   type=int,
   dest='num_topics',
   help='the number of topics with which to train the LDA model',
-  default=50
+  default=850
 )
 
 parser.add_argument(
@@ -36,7 +36,7 @@ parser.add_argument(
   type=float,
   dest='affinity_threshold',
   help='threshold affinity value for the topic clustering algorithm',
-  default=0.1
+  default=0.25
 )
 
 parser.add_argument(
