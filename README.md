@@ -50,9 +50,9 @@ The process begins with consuming a list of content base paths. You'll need to c
 
 For example:
 ```
-/guidance/brucellosis
-/horse-passport
-/report-dead-animal
+/government/publications/permeable-surfacing-of-front-gardens-guidance
+/f-gas-fridges-freezers
+/winter-fuel-payment
 ```
 
 This file should be named `{THEME_NAME}_basepaths.csv` and saved in the `data` directory.
