@@ -1,3 +1,5 @@
+import pandas as pd
+
 class DifferenceSampler:
   def __init__(self, model_class):
     self.model_class = model_class
@@ -41,4 +43,4 @@ class DifferenceSampler:
         previously_seen_topic_groups.add(topic_group)
         pages_to_review.append(row)
 
-    return pages_to_review
+    return pd.DataFrame(pages_to_review)
