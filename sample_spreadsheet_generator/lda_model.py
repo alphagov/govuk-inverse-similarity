@@ -16,7 +16,7 @@ class LdaModel():
     self.stopwords = self.stopwords()
     self.num_topics = num_topics
 
-  # expects a pandas dataframe, integer
+  # expects a pandas dataframe
   def train_model(self, content_dictionary):
     phrases = self.phrases_from_content(content_dictionary)
     dictionary = self.build_dictionary(phrases)
