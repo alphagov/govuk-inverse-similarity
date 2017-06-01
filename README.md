@@ -82,3 +82,7 @@ This is passed to the [LDA](https://en.wikipedia.org/wiki/Latent_Dirichlet_alloc
 ### Affinity Threshold
 
 This is used by the topic-group sampler algorithm, after the content has been topic-modelled. It describes the minimum probability that an LDA model assigned topic can have. Lower values will produce a higher volume of sampled documents, but they may be of lower quality.
+
+## Further Reading
+
+This project wouldn't have been feasible without the knowledge and experience of [previous GOV.UK experiments with LDA tagging](https://github.com/alphagov/govuk-lda-tagger)
