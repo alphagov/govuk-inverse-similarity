@@ -9,5 +9,9 @@ class OutputBuilder():
 
   def prepared_sample(self):
     self.sample_dictionary['URL'] = "https://www.gov.uk" + self.sample_dictionary['basepath']
-    columns = ['URL', 'title', 'description']
+    columns = ['URL', 'title']
+    if ('description' in self.sample_dictionary.columns):
+      columns.append('description')
+    if ('taxons' in self.sample_dictionary.columns):
+      columns.append('taxons')
     return self.sample_dictionary[columns]
