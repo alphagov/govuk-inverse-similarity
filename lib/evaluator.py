@@ -9,7 +9,7 @@ class Evaluator:
     self.model_filename = model_filename
     self.content_dictionary = content_dictionary
 
-    self.topic_numbers = [1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000]
+    self.topic_numbers = [1000, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000]
     self.affinities = [0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65]
 
     self.eighty_percent_of_terms = self.calc_80_percent_of_total_terms()

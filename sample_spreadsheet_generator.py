@@ -1,4 +1,4 @@
-#! ../.venv/bin/python
+#! .venv/bin/python
 # -*- coding: utf-8 -*-
 """
 Generate a spreadsheet of inversely-similar content for the purposes of
@@ -8,11 +8,11 @@ import argparse
 import os
 import sys
 
-from content_dictionary import ContentDictionary
-from lda_model import LdaModel
-from difference_sampler import DifferenceSampler
-from output_builder import OutputBuilder
-from evaluator import Evaluator
+from lib.content_dictionary import ContentDictionary
+from lib.lda_model import LdaModel
+from lib.difference_sampler import DifferenceSampler
+from lib.output_builder import OutputBuilder
+from lib.evaluator import Evaluator
 
 parser = argparse.ArgumentParser(description=__doc__)
 
@@ -44,7 +44,7 @@ parser.add_argument(
   '--data-dir',
   dest='data_dir',
   help='directory for working data',
-  default='../data'
+  default='data'
 )
 
 parser.add_argument(
