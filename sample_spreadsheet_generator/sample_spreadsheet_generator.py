@@ -12,6 +12,7 @@ from content_dictionary import ContentDictionary
 from lda_model import LdaModel
 from difference_sampler import DifferenceSampler
 from output_builder import OutputBuilder
+from evaluator import Evaluator
 
 parser = argparse.ArgumentParser(description=__doc__)
 
@@ -61,6 +62,13 @@ parser.add_argument(
   default='https://www.gov.uk/api/content'
 )
 
+parser.add_argument(
+  '--evaluate',
+  dest='evaluate',
+  help='algorithm evaluation mode (very expensive)',
+  action='store_true'
+)
+
 if __name__ == '__main__':
   args = parser.parse_args()
 
@@ -95,28 +103,34 @@ if __name__ == '__main__':
     print "Error, file not found."
     sys.exit(1)
 
-  model_class = LdaModel( absolute_path(model_filename), num_topics=args.num_topics )
+  if args.evaluate:
+    print 'Evaluating', args.theme_name, 'theme'
+    evaluator = Evaluator(absolute_path(model_filename), content_dictionary)
+    evaluator.save_results()
 
-  if model_class.no_pretrained_model_exists():
-    print 'Training model with', args.num_topics, 'topics'
-    model_class.train_model(
-      content_dictionary=content_dictionary
-    )
   else:
-    print 'Loading model'
+    model_class = LdaModel( absolute_path(model_filename), num_topics=args.num_topics )
 
-  print 'Clustering and sampling'
-  sampled_pages = DifferenceSampler(model_class).sample_pages(
-    content_dictionary=content_dictionary,
-    affinity_threshold=args.affinity_threshold,
-  )
+    if model_class.no_pretrained_model_exists():
+      print 'Training model with', args.num_topics, 'topics'
+      model_class.train_model(
+        content_dictionary=content_dictionary
+      )
+    else:
+      print 'Loading model'
 
-  print str( len(sampled_pages) ) + ' sampled / ' + str( len(content_dictionary) ) + ' total'
+    print 'Clustering and sampling'
+    sampled_pages = DifferenceSampler(model_class).sample_pages(
+      content_dictionary=content_dictionary,
+      affinity_threshold=args.affinity_threshold,
+    )
 
-  print 'Writing output spreadsheet'
-  OutputBuilder(sampled_pages).write_to_file(
-    absolute_path(output_filename)
-  )
+    print str( len(sampled_pages) ) + ' sampled / ' + str( len(content_dictionary) ) + ' total'
+
+    print 'Writing output spreadsheet'
+    OutputBuilder(sampled_pages).write_to_file(
+      absolute_path(output_filename)
+    )
 
   print '✅ Done'
 
