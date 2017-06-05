@@ -75,6 +75,8 @@ There are two variables that the least similar selection (LSS) algorithm uses, t
 
 The algorithm was run in test mode against the Education theme content with many different settings, and the results for comparison are in [this google doc](https://docs.google.com/a/digital.cabinet-office.gov.uk/spreadsheets/d/1ERR5GonY98l9prmPYFR5RuxC7gQShtT_aj15MPAyUzo/edit?usp=sharing)
 
+It is not necessary to change these values, the defaults are *probably* good enough for what you're doing.
+
 ### Number of Topics
 
 This is passed to the [LDA](https://en.wikipedia.org/wiki/Latent_Dirichlet_allocation) topic modeller. It can help to think of a Topic as a machine generated Concept or Term, however the actual output is unlikely to be particularly legible to the human mind.  In the LSS algorithm, a trained LDA model is used to assign topic-groups to thematic content. The Number of Topics parameter alters the output dramatically.
