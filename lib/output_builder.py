@@ -9,7 +9,7 @@ class OutputBuilder():
 
   def prepared_sample(self):
     self.sample_dictionary['URL'] = "https://www.gov.uk" + self.sample_dictionary['basepath']
-    columns = ['URL', 'title']
+    columns = ['content_id', 'basepath', 'URL', 'title']
     if ('description' in self.sample_dictionary.columns):
       columns.append('description')
     if ('taxons' in self.sample_dictionary.columns):
