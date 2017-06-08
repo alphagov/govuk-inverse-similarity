@@ -17,11 +17,17 @@ class LdaModel():
     self.num_topics = num_topics
 
   # expects a pandas dataframe
-  def train_model(self, content_dictionary):
+  def train_model(self, content_dictionary, cores=1):
     phrases = self.phrases_from_content(content_dictionary)
     dictionary = self.build_dictionary(phrases)
     corpus = [dictionary.doc2bow(text) for text in phrases]
-    model = gensim.models.ldamodel.LdaModel(corpus, num_topics=self.num_topics, id2word=dictionary, passes=50)
+    model = gensim.models.ldamulticore.LdaMulticore(
+      corpus,
+      num_topics=self.num_topics,
+      id2word=dictionary,
+      passes=50,
+      workers=cores
+    )
     self.save_model(model)
     self.save_corpus(corpus)
     return model

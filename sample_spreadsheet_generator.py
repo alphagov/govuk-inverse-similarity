@@ -69,6 +69,14 @@ parser.add_argument(
   action='store_true'
 )
 
+parser.add_argument(
+  '--cores',
+  dest='cores',
+  help='number of CPU cores to use for training the LDA model',
+  default=1,
+  type=int
+)
+
 if __name__ == '__main__':
   args = parser.parse_args()
 
@@ -114,7 +122,8 @@ if __name__ == '__main__':
     if model_class.no_pretrained_model_exists():
       print 'Training model with', args.num_topics, 'topics'
       model_class.train_model(
-        content_dictionary=content_dictionary
+        content_dictionary=content_dictionary,
+        cores=args.cores
       )
     else:
       print 'Loading model'
