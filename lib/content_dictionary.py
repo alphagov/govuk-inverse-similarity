@@ -38,7 +38,10 @@ class Page():
       'organisation',
       'policy',
       'national_statistics_announcement',
-      'statistics_announcement'
+      'statistics_announcement',
+      'aaib_report',
+      'raib_report',
+      'maib_report'
     ]
 
   def to_dict(self):

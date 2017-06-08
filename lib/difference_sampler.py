@@ -1,4 +1,5 @@
 import pandas as pd
+from tqdm import tqdm
 
 class DifferenceSampler:
   def __init__(self, model_class):
@@ -12,7 +13,8 @@ class DifferenceSampler:
   def assign_topics(self):
     model = self.model_class.load_model()
     topics = []
-    for bow in self.model_class.load_corpus():
+    print "Assigning topics"
+    for bow in tqdm( self.model_class.load_corpus() ):
       topics.append(model[bow])
     return topics
 
