@@ -132,6 +132,7 @@ if __name__ == '__main__':
     sampled_pages = DifferenceSampler(model_class).sample_pages(
       content_dictionary=content_dictionary,
       affinity_threshold=args.affinity_threshold,
+      cores=args.cores
     )
 
     print str( len(sampled_pages) ) + ' sampled / ' + str( len(content_dictionary) ) + ' total'
