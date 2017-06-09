@@ -18,9 +18,7 @@ class LdaModel():
 
   # expects a pandas dataframe
   def train_model(self, content_dictionary, cores=1):
-    phrases = self.phrases_from_content(content_dictionary)
-    dictionary = self.build_dictionary(phrases)
-    corpus = [dictionary.doc2bow(text) for text in phrases]
+    dictionary, corpus = build_corpus(content_dictionary)
     model = gensim.models.ldamulticore.LdaMulticore(
       corpus,
       num_topics=self.num_topics,
@@ -31,6 +29,12 @@ class LdaModel():
     self.save_model(model)
     self.save_corpus(corpus)
     return model
+
+  def build_corpus(self, content_dictionary):
+    self.phrases = self.phrases_from_content(content_dictionary)
+    dictionary = self.build_dictionary(self.phrases)
+    corpus = [dictionary.doc2bow(text) for text in self.phrases]
+    return dictionary, corpus
 
   def no_pretrained_model_exists(self):
     return not ( os.path.isfile(self.filename) and

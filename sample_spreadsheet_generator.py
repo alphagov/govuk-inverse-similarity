@@ -128,8 +128,17 @@ if __name__ == '__main__':
     else:
       print 'Loading model'
 
+    model = model_class.load_model()
+    corpus = model_class.load_corpus()
+    print ' - corpus contains', len(corpus), 'pages'
+
+    if len(corpus) <> len(content_dictionary):
+      print 'Mismatch in length of corpus and content dictionary.'
+      print ' - regenerating corpus'
+      _, corpus = model_class.build_corpus(content_dictionary)
+
     print 'Clustering and sampling:'
-    sampled_pages = DifferenceSampler(model_class).sample_pages(
+    sampled_pages = DifferenceSampler(model, corpus).sample_pages(
       content_dictionary=content_dictionary,
       affinity_threshold=args.affinity_threshold,
       cores=args.cores

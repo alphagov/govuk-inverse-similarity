@@ -4,9 +4,9 @@ import time
 from multicore_runner import run_multicore
 
 class DifferenceSampler:
-  def __init__(self, model_class):
-    self.model = model_class.load_model()
-    self.corpus = model_class.load_corpus()
+  def __init__(self, model, corpus):
+    self.model = model
+    self.corpus = corpus
 
   def sample_pages(self, content_dictionary, affinity_threshold, cores=1):
     content_dictionary['topics'] = run_multicore(cores, self.assign_topics, self.corpus)
