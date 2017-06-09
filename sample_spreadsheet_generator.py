@@ -95,10 +95,10 @@ if __name__ == '__main__':
     return os.path.isfile( absolute_path(filename) )
 
   if file_exists(content_dictionary_filename):
-    print 'Loading content dictionary'
     content_dictionary = ContentDictionary().load(
       filename=absolute_path(content_dictionary_filename)
     )
+    print 'Loading content dictionary:', len(content_dictionary), 'pages'
   elif file_exists(basepaths_filename):
     print 'Building content dictionary...'
     content_dictionary = ContentDictionary().build(
@@ -128,7 +128,7 @@ if __name__ == '__main__':
     else:
       print 'Loading model'
 
-    print 'Clustering and sampling'
+    print 'Clustering and sampling:'
     sampled_pages = DifferenceSampler(model_class).sample_pages(
       content_dictionary=content_dictionary,
       affinity_threshold=args.affinity_threshold,

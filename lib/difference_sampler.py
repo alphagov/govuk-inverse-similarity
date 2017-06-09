@@ -13,12 +13,12 @@ class DifferenceSampler:
     self.topic_affinity_threshold = affinity_threshold
     return self.naive_clustering_by_topic(content_dictionary)
 
-  def assign_topics(self, q, corpus_pages, i):
+  def assign_topics(self, corpus_pages, index):
+    print ' - process', index, 'assigning topics to', len(corpus_pages), 'pages'
     topics = []
-    print 'Process', i, 'assigning topics to', len(corpus_pages), 'pages'
     for bow in corpus_pages:
       topics.append(self.model[bow])
-    q.put({i: topics})
+    return {index: topics}
 
   def naive_clustering_by_topic(self, content):
     # filter topics with probability < eg 30%
