@@ -3,6 +3,10 @@
 In order to maximise the time-effectiveness of early-stage taxonomy generation,
 this tool will create a list of conceptually-dense pages for expert review.
 
+👉 [Read about the why and how in this post][blog] 📖
+
+[blog]: /docs/why-inverse-similarity.md
+
 ## Why use this tool?
 
 Based on a review of the Education themed content, this algorithm performed significantly better than other sampling approaches when selecting for conceptual density.
