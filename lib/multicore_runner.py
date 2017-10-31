@@ -1,4 +1,3 @@
-import time
 from multiprocessing import Process, Queue
 
 def run_multicore(cores, function, data):
@@ -7,7 +6,8 @@ def run_multicore(cores, function, data):
   output_unsorted = {}
   sorted_output = []
   for i in range(0, cores):
-    runner(q, i, function, data_chunks[i])
+    process = Process(target=function, args=(q, data_chunks[i], i))
+    process.start()
   while(True):
     output_unsorted.update( q.get() )
     if len(output_unsorted) == cores:
@@ -16,10 +16,6 @@ def run_multicore(cores, function, data):
   for i in range(0, cores):
     sorted_output.extend(output_unsorted[i])
   return sorted_output
-
-def runner(queue, core, function, data):
-  process = Process(target=function, args=(data, core))
-  process.start()
 
 def chunk_data(cores, data_list):
   out = []

@@ -21,8 +21,7 @@ class ContentDictionary():
     with open(dictionary_filename, 'w') as outfile:
       json.dump(pages, outfile, indent=2)
 
-    print ' - ', len(pages), 'pages downloaded'
-    print " - {0} items skipped".format( len(self.basepaths()) - len(pages) )
+    print "{0} items skipped".format( len(self.basepaths()) - len(pages) )
     return pd.DataFrame(pages)
 
   def basepaths(self):
