@@ -16,8 +16,13 @@ Based on a review of the Education themed content, this algorithm performed sign
 First, you'll need to install some dependencies. It's a python thing, so:
 
 ```
-$ git clone git@github.com:alphagov/ordering-documents-by-inverse-similarity.git
-$ cd ordering-documents-by-inverse-similarity
+$ git clone git@github.com:alphagov/govuk-inverse-similarity.git
+$ cd govuk-inverse-similarity
+```
+
+### On MacOS
+
+```
 $ virtualenv .venv
 $ source .venv/bin/activate
 $ pip install -r requirements.txt
