@@ -1,7 +1,7 @@
 # coding: utf-8
 import pandas as pd
-from lda_model import LdaModel
-from difference_sampler import DifferenceSampler
+from .lda_model import LdaModel
+from .difference_sampler import DifferenceSampler
 
 # expects content_dictionary to have a 'taxons' field, containing an array of strings
 class Evaluator:
@@ -24,12 +24,12 @@ class Evaluator:
     for num_topics in self.topic_numbers:
       model = LdaModel( self.model_filename, num_topics=num_topics )
       if model.no_pretrained_model_exists():
-        print 'Training model with', num_topics, 'topics'
+        print('Training model with', num_topics, 'topics')
         model.train_model(self.content_dictionary)
       else:
-        print 'Loading model with', num_topics, 'topics'
+        print('Loading model with', num_topics, 'topics')
 
-      print 'Testing against affinity matrix'
+      print('Testing against affinity matrix')
       for affinity in self.affinities:
         sampled_pages = DifferenceSampler(model).sample_pages(
           content_dictionary=self.content_dictionary,

@@ -95,12 +95,12 @@ if __name__ == '__main__':
     return os.path.isfile( absolute_path(filename) )
 
   if file_exists(content_dictionary_filename):
-    print 'Loading content dictionary'
+    print('Loading content dictionary')
     content_dictionary = ContentDictionary().load(
       filename=absolute_path(content_dictionary_filename)
     )
   elif file_exists(basepaths_filename):
-    print 'Building content dictionary...'
+    print('Building content dictionary...')
     content_dictionary = ContentDictionary().build(
       basepaths_filename=absolute_path(basepaths_filename),
       dictionary_filename=absolute_path(content_dictionary_filename),
@@ -108,11 +108,11 @@ if __name__ == '__main__':
       niceness=args.niceness
     )
   else:
-    print "Error, file not found."
+    print("Error, file not found.")
     sys.exit(1)
 
   if args.evaluate:
-    print 'Evaluating', args.theme_name, 'theme'
+    print('Evaluating', args.theme_name, 'theme')
     evaluator = Evaluator(absolute_path(model_filename), content_dictionary)
     evaluator.save_results()
 
@@ -120,35 +120,35 @@ if __name__ == '__main__':
     model_class = LdaModel( absolute_path(model_filename), num_topics=args.num_topics )
 
     if model_class.no_pretrained_model_exists():
-      print 'Training model with', args.num_topics, 'topics'
+      print('Training model with', args.num_topics, 'topics')
       model_class.train_model(
         content_dictionary=content_dictionary,
         cores=args.cores
       )
     else:
-      print 'Loading model'
+      print('Loading model')
 
     model = model_class.load_model()
     corpus = model_class.load_corpus()
-    print ' - corpus contains', len(corpus), 'pages'
+    print(' - corpus contains', len(corpus), 'pages')
 
-    if len(corpus) <> len(content_dictionary):
-      print 'Mismatch in length of corpus and content dictionary.'
-      print ' - regenerating corpus'
+    if len(corpus) != len(content_dictionary):
+      print('Mismatch in length of corpus and content dictionary.')
+      print(' - regenerating corpus')
       _, corpus = model_class.build_corpus(content_dictionary)
 
-    print 'Clustering and sampling:'
+    print('Clustering and sampling:')
     sampled_pages = DifferenceSampler(model, corpus).sample_pages(
       content_dictionary=content_dictionary,
       affinity_threshold=args.affinity_threshold,
     )
 
-    print str( len(sampled_pages) ) + ' sampled / ' + str( len(content_dictionary) ) + ' total'
+    print(str( len(sampled_pages) ) + ' sampled / ' + str( len(content_dictionary) ) + ' total')
 
-    print 'Writing output spreadsheet'
+    print('Writing output spreadsheet')
     OutputBuilder(sampled_pages).write_to_file(
       absolute_path(output_filename)
     )
 
-  print '✅ Done'
+  print('✅ Done')
 

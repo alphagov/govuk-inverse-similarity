@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import urllib, json, time, sys
+import urllib.request, urllib.parse, urllib.error, json, time, sys
 import pandas as pd
 from tqdm import tqdm
 
@@ -21,7 +21,7 @@ class ContentDictionary():
     with open(dictionary_filename, 'w') as outfile:
       json.dump(pages, outfile, indent=2)
 
-    print "{0} items skipped".format( len(self.basepaths()) - len(pages) )
+    print("{0} items skipped".format( len(self.basepaths()) - len(pages) ))
     return pd.DataFrame(pages)
 
   def basepaths(self):
@@ -69,27 +69,27 @@ class Page():
     if ( self.data['schema_name'] in ['transaction','local_transaction'] ):
       body_keys = ['introductory_paragraph','more_information','introduction']
       details_dict = self.data['details']
-      for key in details_dict.keys():
+      for key in list(details_dict.keys()):
         if key not in body_keys:
           del details_dict[key]
       return ' '.join(details_dict)
 
-    elif ( 'parts' in self.data['details'].keys() ):
+    elif ( 'parts' in list(self.data['details'].keys()) ):
       return " ".join( part['body'] for part in self.data['details']['parts'] )
 
-    elif ( 'collection_groups' in self.data['details'].keys() ):
+    elif ( 'collection_groups' in list(self.data['details'].keys()) ):
       return " ".join( part['body'] for part in self.data['details']['collection_groups'] )
 
     elif ( self.data['document_type'] == 'licence' ):
       return self.data['details']['licence_short_description'] + self.data['details']['licence_overview']
-    elif 'body' in self.data['details'].keys():
+    elif 'body' in list(self.data['details'].keys()):
       return self.data['details']['body']
     else:
       return None
 
   def fetch_data(self, url):
     try:
-      response = urllib.urlopen(url)
+      response = urllib.request.urlopen(url)
       return json.loads(response.read())
     except:
       pass

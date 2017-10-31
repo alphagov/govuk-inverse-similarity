@@ -1,5 +1,5 @@
 from textacy import preprocess
-from HTMLParser import HTMLParser
+from html.parser import HTMLParser
 from gensim.utils import lemmatize
 from gensim.parsing.preprocessing import STOPWORDS
 from gensim import corpora, models
@@ -74,7 +74,7 @@ class LdaModel():
     curated_words = [word.split('/')[0] for word in all_lemmas]
     curated_text = ' '.join(curated_words)
 
-    doc = textacy.Doc(unicode(curated_text.decode('ascii', 'ignore')), lang=u'en')
+    doc = textacy.Doc(str(curated_text.decode('ascii', 'ignore')), lang='en')
 
     all_phrases = []
     all_phrases += textacy.extract.ngrams(doc, 2, filter_stops=True, filter_punct=True, filter_nums=True)
@@ -82,7 +82,7 @@ class LdaModel():
     all_phrases += textacy.extract.ngrams(doc, 4, filter_stops=True, filter_punct=True, filter_nums=True)
     all_phrases += textacy.extract.ngrams(doc, 5, filter_stops=True, filter_punct=True, filter_nums=True)
 
-    phrases = [unicode(phrase) for phrase in all_phrases]
+    phrases = [str(phrase) for phrase in all_phrases]
 
     return phrases
 
@@ -91,11 +91,11 @@ class LdaModel():
     raw_text = raw_text.lower()
     raw_text = preprocess.remove_punct(raw_text)
     raw_text = preprocess.transliterate_unicode(raw_text)
-    raw_text = preprocess.replace_urls(raw_text, replace_with=u'')
-    raw_text = preprocess.replace_emails(raw_text, replace_with=u'')
-    raw_text = preprocess.replace_phone_numbers(raw_text, replace_with=u'')
-    raw_text = preprocess.replace_numbers(raw_text, replace_with=u'')
-    raw_text = preprocess.replace_currency_symbols(raw_text, replace_with=u'')
+    raw_text = preprocess.replace_urls(raw_text, replace_with='')
+    raw_text = preprocess.replace_emails(raw_text, replace_with='')
+    raw_text = preprocess.replace_phone_numbers(raw_text, replace_with='')
+    raw_text = preprocess.replace_numbers(raw_text, replace_with='')
+    raw_text = preprocess.replace_currency_symbols(raw_text, replace_with='')
     return raw_text
 
   def strip_tags(self, htmlish):
