@@ -23,31 +23,6 @@ $ source .venv/bin/activate
 $ pip install -r requirements.txt
 ```
 
-We use a python library called `nltk` for natural language processing. We need a
-module from `nltk` that doesn't come bundled with the library. In order to
-install that module do the following:
-
-1) Open a python console
-
-```
-$ python
-Python 2.7.12 (default, Jun 29 2016, 14:05:02)
-[GCC 4.2.1 Compatible Apple LLVM 7.3.0 (clang-703.0.31)] on darwin
-Type "help", "copyright", "credits" or "license" for more information.
-```
-
-2) Import `nltk` and open its package application:
-
-```
->>> import nltk
->>> nltk.download()
-showing info https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/index.xml
-```
-
-3) On the GUI it opened, click on `corpora` and scroll down until you find a
-package named `stopwords`. Download that package and exit the app.
-
-
 ## Create a sample spreadsheet for a new theme
 
 The process begins with consuming a list of content base paths. You'll need to create one of these. It should be a file containing a single base path per line, and the tool expects that the referenced content will be of a single theme.
