@@ -108,7 +108,12 @@ if __name__ == '__main__':
       niceness=args.niceness
     )
   else:
-    print("Error, file not found.")
+    print(
+      "Error, neither %s or %s found" % (
+        content_dictionary_filename,
+        basepaths_filename
+      )
+    )
     sys.exit(1)
 
   if args.evaluate:
