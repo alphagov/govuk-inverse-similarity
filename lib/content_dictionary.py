@@ -59,7 +59,11 @@ class Page():
       return {}
 
   def processable(self):
-    return self.data is not None and self.processable_content_type() and self.body_content() and self.en_lang()
+    return \
+      self.data is not None and \
+      self.processable_content_type() and \
+      self.body_content() and \
+      self.en_lang()
 
   def processable_content_type(self):
     return self.data['document_type'] not in self.unprocessable_types
