@@ -12,9 +12,12 @@ class ContentDictionary():
 
     pages = []
     for path in tqdm( self.basepaths() ):
-      page_data = Page(url + path).to_dict()
-      if bool(page_data):
+      try:
+        page_data = Page(url + path).to_dict()
         pages.append(page_data)
+      except Exception as e:
+        tqdm.write("Exception fetching %s: %s" %(url + path, e))
+
       time.sleep(niceness / 1000.0)
 
     with open(dictionary_filename, 'w') as outfile:
@@ -87,8 +90,5 @@ class Page():
       return None
 
   def fetch_data(self, url):
-    try:
-      response = urllib.request.urlopen(url)
-      return json.loads(response.read())
-    except:
-      pass
+    response = urllib.request.urlopen(url)
+    return json.loads(response.read().decode('utf-8'))
