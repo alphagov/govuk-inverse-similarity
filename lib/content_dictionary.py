@@ -5,8 +5,7 @@ from tqdm import tqdm
 
 class ContentDictionary():
   def load(self, filename):
-    with open(filename, 'rb') as infile:
-      return pd.DataFrame( json.loads( infile.read() ) )
+    return pd.read_json(open(filename, 'r'))
 
   def build(self, basepaths_filename, dictionary_filename, url, niceness=10):
     self.basepaths_filename = basepaths_filename
