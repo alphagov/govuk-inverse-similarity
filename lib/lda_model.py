@@ -18,7 +18,7 @@ class LdaModel():
 
   # expects a pandas dataframe
   def train_model(self, content_dictionary, cores=1):
-    dictionary, corpus = build_corpus(content_dictionary)
+    dictionary, corpus = self.build_corpus(content_dictionary)
     model = gensim.models.ldamulticore.LdaMulticore(
       corpus,
       num_topics=self.num_topics,
@@ -71,10 +71,10 @@ class LdaModel():
 
   def phrases(self, clean_text):
     all_lemmas = lemmatize( clean_text, stopwords=self.stopwords )
-    curated_words = [word.split('/')[0] for word in all_lemmas]
+    curated_words = [str(word).split('/')[0] for word in all_lemmas]
     curated_text = ' '.join(curated_words)
 
-    doc = textacy.Doc(str(curated_text.decode('ascii', 'ignore')), lang='en')
+    doc = textacy.Doc(curated_text, lang='en')
 
     all_phrases = []
     all_phrases += textacy.extract.ngrams(doc, 2, filter_stops=True, filter_punct=True, filter_nums=True)
@@ -112,10 +112,11 @@ class LdaModel():
           if line:
             stopwords.append(line)
 
-    return stopwords + [word.decode('utf8') for word in STOPWORDS]
+    return stopwords + list(STOPWORDS)
 
 class MLStripper(HTMLParser):
   def __init__(self):
+    super().__init__()
     self.reset()
     self.fed = []
   def handle_data(self, d):
