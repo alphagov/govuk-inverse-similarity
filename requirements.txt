@@ -19,3 +19,4 @@ phrasemachine==1.0.1
 textacy==0.3.1
 ftfy==4.4.3
 tqdm==4.14.0
+spacy==1.9.0

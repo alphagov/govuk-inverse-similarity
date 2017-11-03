@@ -26,6 +26,7 @@ $ cd govuk-inverse-similarity
 $ virtualenv .venv
 $ source .venv/bin/activate
 $ pip install -r requirements.txt
+$ python -m spacy download en
 ```
 
 ## Create a sample spreadsheet for a new theme
