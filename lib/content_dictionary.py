@@ -14,7 +14,8 @@ class ContentDictionary():
     for path in tqdm( self.basepaths() ):
       try:
         page_data = Page(url + path).to_dict()
-        pages.append(page_data)
+        if page_data:
+          pages.append(page_data)
       except Exception as e:
         tqdm.write("Exception fetching %s: %s" %(url + path, e))
 
