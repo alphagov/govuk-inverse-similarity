@@ -13,7 +13,7 @@ Based on a review of the Education themed content, this algorithm performed sign
 
 ## Getting set up to use the tool
 
-First, you'll need to install some dependencies. It's a python thing, so:
+First, you'll need to install some dependencies. It's a Python 3 thing, so:
 
 ```
 $ git clone git@github.com:alphagov/govuk-inverse-similarity.git
