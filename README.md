@@ -13,40 +13,21 @@ Based on a review of the Education themed content, this algorithm performed sign
 
 ## Getting set up to use the tool
 
-First, you'll need to install some dependencies. It's a python thing, so:
+First, you'll need to install some dependencies. It's a Python 3 thing, so:
 
 ```
-$ git clone git@github.com:alphagov/ordering-documents-by-inverse-similarity.git
-$ cd ordering-documents-by-inverse-similarity
+$ git clone git@github.com:alphagov/govuk-inverse-similarity.git
+$ cd govuk-inverse-similarity
+```
+
+### On MacOS
+
+```
 $ virtualenv .venv
 $ source .venv/bin/activate
 $ pip install -r requirements.txt
+$ python -m spacy download en
 ```
-
-We use a python library called `nltk` for natural language processing. We need a
-module from `nltk` that doesn't come bundled with the library. In order to
-install that module do the following:
-
-1) Open a python console
-
-```
-$ python
-Python 2.7.12 (default, Jun 29 2016, 14:05:02)
-[GCC 4.2.1 Compatible Apple LLVM 7.3.0 (clang-703.0.31)] on darwin
-Type "help", "copyright", "credits" or "license" for more information.
-```
-
-2) Import `nltk` and open its package application:
-
-```
->>> import nltk
->>> nltk.download()
-showing info https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/index.xml
-```
-
-3) On the GUI it opened, click on `corpora` and scroll down until you find a
-package named `stopwords`. Download that package and exit the app.
-
 
 ## Create a sample spreadsheet for a new theme
 
@@ -88,10 +69,6 @@ This is passed to the [LDA](https://en.wikipedia.org/wiki/Latent_Dirichlet_alloc
 ### Affinity Threshold
 
 This is used by the topic-group sampler algorithm, after the content has been topic-modelled. It describes the minimum probability that an LDA model assigned topic can have. Lower values will produce a higher volume of sampled documents, but they may be of lower quality.
-
-### Number of Cores
-
-This sets the number of processes used to train the LDA Model, and to map topics to page content. It defaults to 1. If you've got spare CPU cycles to throw at it, set this to the number of CPU cores you have available, minus 1.
 
 ## Further Reading
 

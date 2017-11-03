@@ -1,24 +1,22 @@
 import pandas as pd
 from tqdm import tqdm
-import time
-from multicore_runner import run_multicore
 
 class DifferenceSampler:
   def __init__(self, model, corpus):
     self.model = model
     self.corpus = corpus
 
-  def sample_pages(self, content_dictionary, affinity_threshold, cores=1):
-    content_dictionary['topics'] = run_multicore(cores, self.assign_topics, self.corpus)
+  def sample_pages(self, content_dictionary, affinity_threshold):
+    content_dictionary['topics'] = self.assign_topics()
     self.topic_affinity_threshold = affinity_threshold
     return self.naive_clustering_by_topic(content_dictionary)
 
-  def assign_topics(self, corpus_pages, index):
-    print ' - process', index, 'assigning topics to', len(corpus_pages), 'pages'
+  def assign_topics(self):
     topics = []
-    for bow in corpus_pages:
+    print("Assigning topics")
+    for bow in tqdm(self.corpus):
       topics.append(self.model[bow])
-    return {index: topics}
+    return topics
 
   def naive_clustering_by_topic(self, content):
     # filter topics with probability < eg 30%

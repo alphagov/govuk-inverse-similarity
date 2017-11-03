@@ -1,21 +1,22 @@
 ipython==3.2.0
 matplotlib==1.4.3
-pandas==0.18.1
+pandas==0.20.3
 nltk==3.2.1
-numpy==1.11.2
+numpy==1.13.3
 lda==1.0.4
 stop_words
 gensim==0.13.1
-Pattern==2.6
+-e git+git@github.com:clips/pattern.git@ec95f97b2e34c2232e7c43ef1e34e3f0dea6654b#egg=pattern-development-branch
 ipdb==0.10.1
 Scrapy==1.2.1
 html2text==2016.9.19
-pdfminer==20140328
+pdfminer.six==20170720
 requests_cache
-BeautifulSoup==3.2.1
+beautifulsoup4==4.6.0
 pyLDAvis==2.0.0
 jupyter==1.0.0
 phrasemachine==1.0.1
 textacy==0.3.1
 ftfy==4.4.3
 tqdm==4.14.0
+spacy==1.9.0
