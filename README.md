@@ -70,10 +70,6 @@ This is passed to the [LDA](https://en.wikipedia.org/wiki/Latent_Dirichlet_alloc
 
 This is used by the topic-group sampler algorithm, after the content has been topic-modelled. It describes the minimum probability that an LDA model assigned topic can have. Lower values will produce a higher volume of sampled documents, but they may be of lower quality.
 
-### Number of Cores
-
-This sets the number of processes used to train the LDA Model, and to map topics to page content. It defaults to 1. If you've got spare CPU cycles to throw at it, set this to the number of CPU cores you have available, minus 1.
-
 ## Further Reading
 
 This project wouldn't have been feasible without the knowledge and experience of [previous GOV.UK experiments with LDA tagging](https://github.com/alphagov/govuk-lda-tagger)
